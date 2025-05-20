@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questão 2</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: antiquewhite;
+        }
+        h1 {
+            text-align: center;
+            color: #494949;
+        }
+        #cervejas{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 30px; 
+        }
+        .card { 
+            width: 300px;
+            background: rgb(241, 200, 149);
+            padding: 10px; 
+            border-radius: 15px;
+        }
+        .card img { 
+            width: 100%; 
+            height: 100%;
+            border-radius: 8px;
+            height: 300px;
+
+        }
+        .card h2 { 
+            font-size: medium;
+            margin:10px 0; 
+            color: #312a00;
+            text-align: left;
+        }
+        .card p { 
+            font-size: larger;
+            margin: 5px 0; 
+            color:rgb(0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cervejas disponíveis  </h1>
+    <div id="cervejas"></div>
+    
+    <script>
+        async function carregandoCervejas() {
+            try {
+                const response = await fetch('https://api.sampleapis.com/beers/ale'); 
+                const data = await response.json();
+                mostrandoCervejas(data);
+            } catch (error) {
+                document.getElementById("cervejas").innerHTML = "Erro ao carregar as cervejas";
+                console.error(error);
+            }
+        }
+
+        function mostrandoCervejas(cervejas) {
+            const container = document.getElementById("cervejas");
+            
+            cervejas.forEach(beers => {
+                const card = document.createElement("div");
+                card.className = "card";
+                
+                const imagem = beers.image;
+
+                card.innerHTML = `<img src = "${imagem}">
+                <h2>${beers.name}</h2>
+                <p><b>${beers.price}</b></p>`
+
+                container.appendChild(card);
+            });
+        }
+        carregandoCervejas();
+    </script>
+</body>
+</html>
